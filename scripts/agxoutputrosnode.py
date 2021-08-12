@@ -33,39 +33,20 @@
 #
 # Revision $Id$
 
-## This node recieves and debounces the output of the human detector
-#It should be settable.
+## Simple talker demo that listens to std_msgs/Strings published 
+## to the 'chatter' topic
 
-
-#put a default value of the debouncing time
-
-
+import RPi.GPIO as GPIO
+import time
 import rospy
 from std_msgs.msg import Bool
 
-debounceAmount = 5 #amount of frames to debounce for
-count = 0
-lastVal = False
-lastValues = []
 
+# Pin Definitions
+output_pin = 18  # BCM pin 18, BOARD pin 12
 
 def callback(data):
-    #rospy.loginfo(rospy.get_caller_id() + 'Human detected? %s', data.data)
-
-    global debounceAmount, count, lastVal, lastValues
-
     rospy.loginfo(rospy.get_caller_id() + 'Human detected? %s', data.data)
-       
-
-
-    #if count < debounceAmount :
-    #     lastValues.append(data.data)
-    #     count=count+1
-    # elif count == debounceAmount:
-    #     rospy.loginfo(rospy.get_caller_id() + 'Human detected? %s', all(lastValues))
-    #     pub.publish(all(lastValues))
-    #     count=0
-    #     lastValues.clear()
 
 def listener():
 
@@ -74,31 +55,41 @@ def listener():
     # anonymous=True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
-    
+    rospy.init_node('listener', anonymous=True)
 
     rospy.Subscriber('chatter', Bool, callback)
 
+    # Pin Setup:
+    GPIO.setmode(GPIO.BCM)  # BCM pin-numbering scheme from Raspberry Pi
+    # set pin as an output pin with optional initial state of HIGH
+    GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.HIGH)
 
+    print("Starting demo now! Press CTRL+C to exit")
+    curr_value = GPIO.HIGH
 
-
-
-
+    try:
+        for i in range(6):
+            time.sleep(1)
+            # Toggle the output every second
+            print("Outputting {} to pin {}".format(curr_value, output_pin))
+            GPIO.output(output_pin, curr_value)
+            curr_value ^= GPIO.HIGH
+    finally:
+        GPIO.cleanup()
+        for i in range(50):
+            print("I am finished")
 
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
 if __name__ == '__main__':
-    #create a unique node
-    rospy.init_node('listener', anonymous=True)
 
-    #INTIALIZE lastVaues array pls for any amount of time
 
-    #create a publisher object and defines which topic it subscribes to
-    pub=rospy.Publisher('humanDebounced', Bool, queue_size=100)
 
-    #start the subscribing and publishing process
+
+
     try:
         listener()
-    except rospy.ROSInterruptException:
-        pass
+    except KeyboardInterrupt:
+        print("Interrupted")
