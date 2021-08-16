@@ -62,22 +62,23 @@ def listener():
     # Pin Setup:
     GPIO.setmode(GPIO.BCM)  # BCM pin-numbering scheme from Raspberry Pi
     # set pin as an output pin with optional initial state of HIGH
-    GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.LOW)
 
     print("Starting demo now! Press CTRL+C to exit")
     curr_value = GPIO.HIGH
 
+
     try:
-        for i in range(6):
-            time.sleep(1)
-            # Toggle the output every second
-            print("Outputting {} to pin {}".format(curr_value, output_pin))
-            GPIO.output(output_pin, curr_value)
-            curr_value ^= GPIO.HIGH
+         while not rospy.is_shutdown():
+                time.sleep(1)
+                # Toggle the output every second
+                print("Outputting {} to pin {}".format(curr_value, output_pin))
+                GPIO.output(output_pin, curr_value)
+                curr_value ^= GPIO.HIGH
     finally:
         GPIO.cleanup()
-        for i in range(50):
-            print("I am finished")
+        print("Exiting")
+
 
 
     # spin() simply keeps python from exiting until this node is stopped
@@ -86,10 +87,5 @@ def listener():
 if __name__ == '__main__':
 
 
+    listener()  
 
-
-
-    try:
-        listener()
-    except KeyboardInterrupt:
-        print("Interrupted")
