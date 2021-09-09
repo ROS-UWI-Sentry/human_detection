@@ -90,7 +90,7 @@ def listener():
 
 if __name__ == '__main__':
     #create a unique node
-    rospy.init_node('listener', anonymous=True)
+    rospy.init_node('listener')
 
     #INTIALIZE lastVaues array pls for any amount of time
 

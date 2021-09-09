@@ -1,0 +1,10 @@
+<launch>
+
+    <node pkg="human_detection" type="run_script.sh" name="human_detection" />
+
+    
+
+</launch>
+
+
+
