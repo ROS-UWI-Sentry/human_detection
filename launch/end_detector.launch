@@ -1,0 +1,10 @@
+<launch>
+
+    <node pkg="human_detection" type="end_script.sh" name="human_detection" />
+
+    
+
+</launch>
+
+
+

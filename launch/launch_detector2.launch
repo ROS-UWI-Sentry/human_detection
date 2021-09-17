@@ -1,8 +1,8 @@
 <launch>
 
-    <node pkg="human_detection" type="run_script.sh" name="human_detection" output="screen" launch-prefix="gnome-terminal --command"/>
+    <node pkg="human_detection" type="run_script.sh" name="human_detection"/>
 
-    <node pkg="human_detection" type="listener.py" name="subscriber" output="screen" launch-prefix="gnome-terminal --command"/>
+
 
 </launch>
 
