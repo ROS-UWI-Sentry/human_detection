@@ -1,0 +1,16 @@
+<launch>
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+        <arg name="port" value="9090" />
+    </include>
+<!--     < node pkg="rosbridge_server" type="rosbridge_websocket.launch" name="rosbrige_launcher" output="screen" /> -->
+
+    <node pkg="human_detection" type="run_script.sh" name="human_detection" output="screen" launch-prefix="gnome-terminal --command"/>
+
+    <node pkg="human_detection" type="listener.py" name="subscriber" output="screen" launch-prefix="gnome-terminal  --command" />
+
+ 
+
+</launch>
+
+
+
