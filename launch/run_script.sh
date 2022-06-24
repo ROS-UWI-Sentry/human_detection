@@ -1,5 +1,8 @@
 #!/bin/sh
 
+export DISPLAY=:0
+gst-launch-1.0 nvarguscamerasrc .........
+
 cd
 cd yolov5
 

@@ -5,7 +5,7 @@ This package holds the launch files for running and ending the yolov5 pyhton scr
 
 The launch file starts the run_script.sh bash script. In this script webcamDebounceFrames specifies the amount of frames needed to have a human present in it sequentially before the detector publishes that a human is present. This helps for removing fase positives.  
 
-For running headlessly we had to edit the code:
+For running headlessly we had to edit the code, view_img = True:
 
 ```
     # Set Dataloader
@@ -16,4 +16,11 @@ For running headlessly we had to edit the code:
         dataset = LoadStreams(source, img_size=imgsz, stride=stride)
     else:
         dataset = LoadImages(source, img_size=imgsz, stride=stride)
+```
+
+to use multiple usb webcams, in the launch bash script we had to add a few lines before we tried to run yolov5:
+
+```
+export DISPLAY=:0
+gst-launch-1.0 nvarguscamerasrc .........
 ```
