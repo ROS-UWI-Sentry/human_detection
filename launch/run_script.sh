@@ -1,9 +1,9 @@
 #!/bin/sh
+cd
 
 export DISPLAY=:0
 gst-launch-1.0 nvarguscamerasrc .........
 
-cd
 cd yolov5
 
 ls -ltrh /dev/video* > streams.txt
